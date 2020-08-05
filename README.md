@@ -31,8 +31,8 @@
 | category_id          | integer  | null: false                    |
 | item_status_id       | integer  | null: false                    |
 | delivery_burden_id   | integer  | null: false                    |
-| sipping_region_id    | integer  | null: false                    |
-| sipping_date_id      | integer  | null: false                    |
+| shipping_region_id   | integer  | null: false                    |
+| shipping_date_id     | integer  | null: false                    |
 
 ### Association
 
@@ -75,7 +75,7 @@
 | Column            | Type     | Option                         |
 | ------------------|----------|--------------------------------|
 | user_id           | integer  | null: false, foreign_key: true |
-| item _id          | integer  | null: false, foreign_key: true |
+| item_id           | integer  | null: false, foreign_key: true |
 
 - belongs_to :user
 - belongs_to :item
