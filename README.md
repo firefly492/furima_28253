@@ -11,13 +11,12 @@
 | first_name        | string  | null: false |
 | family_name_kana  | string  | null: false |
 | first_name_kana   | string  | null: false |
-| birth_date        | string  | null: false |
+| birth_date        | date    | null: false |
 
 ### Association
 
 - has_many :items
 - has_many :comments
-- has_one :buyer
 - has_one :exhibition
 
 ## items テーブル
@@ -34,6 +33,7 @@
 
 - belongs_to :user
 - has_one :exhibition
+- belongs_to :buyer
 
 ## comments テーブル
 
@@ -46,7 +46,7 @@
 ### Association
 
 - belongs_to :user
-- belongs_to :buyer
+- has_one :buyer
 
 ## buyer テーブル
 
@@ -57,23 +57,29 @@
 | house_number      | string  | null: false                    |
 | building_name     | string  |                                |
 | telephone_number  | string  | null: false                    |
-| user_id           | string  | null: false, foreign_key: true |
+| item_id           | string  | null: false, foreign_key: true |
 
 ### Association
 
-- belongs_to :user
+- belongs_to :item
 - has_many :comments
-- has_one :exhibition
 
 ## exhibition
 
 | Column            | Type    | Option                         |
 | ------------------|---------|--------------------------------|
-| comment           | text    | null: false                    |
 | user_id           | string  | null: false, foreign_key: true |
 | item _id          | string  | null: false, foreign_key: true |
-| buyer_id          | string  | null: false, foreign_key: true |
 
 - belongs_to :user
 - belongs_to :item
-- belongs_to :buyer
+
+
+
+##### ActiveHash
+
+| category_id          | integer  | null: false                    |
+| item_status_id       | integer  | null: false                    |
+| delivery_burden_id   | integer  | null: false                    |
+| sipping_region_id    | integer  | null: false                    |
+| sipping_date_id      | integer  | null: false                    |
