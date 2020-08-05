@@ -21,19 +21,18 @@
 
 ## items テーブル
 
-| Column            | Type    | Option                         |
-| ------------------|---------|--------------------------------|
-| image             | img     | null: false                    |
-| item_name         | string  | null: false                    |
-| item_explanation  | text    | null: false                    |
-| price             | string  | null: false                    |
-| user_id           | string  | null: false, foreign_key: true |
-##### ActiveHash
-| category_id          | integer  | null: false                |
-| item_status_id       | integer  | null: false                |
-| delivery_burden_id   | integer  | null: false                |
-| sipping_region_id    | integer  | null: false                |
-| sipping_date_id      | integer  | null: false                |
+| Column               | Type     | Option                         |
+| ---------------------|----------|--------------------------------|
+| image                | img      | null: false                    |
+| item_name            | string   | null: false                    |
+| item_explanation     | text     | null: false                    |
+| price                | string   | null: false                    |
+| user_id              | integer  | null: false, foreign_key: true |
+| category_id          | integer  | null: false                    |
+| item_status_id       | integer  | null: false                    |
+| delivery_burden_id   | integer  | null: false                    |
+| sipping_region_id    | integer  | null: false                    |
+| sipping_date_id      | integer  | null: false                    |
 
 ### Association
 
@@ -43,11 +42,11 @@
 
 ## comments テーブル
 
-| Column            | Type    | Option                         |
-| ------------------|---------|--------------------------------|
-| comment           | text    | null: false                    |
-| user_id           | string  | null: false, foreign_key: true |
-| buyer_id          | string  | null: false, foreign_key: true |
+| Column            | Type     | Option                         |
+| ------------------|----------|--------------------------------|
+| comment           | text     | null: false                    |
+| user_id           | integer  | null: false, foreign_key: true |
+| buyer_id          | integer  | null: false, foreign_key: true |
 
 ### Association
 
@@ -56,15 +55,15 @@
 
 ## buyer テーブル
 
-| Column            | Type    | Option                         |
-| ------------------|---------|--------------------------------|
-| postal_code       | string  | null: false                    |
-| prefecture        | string  | null: false                    |
-| city              | string  | null: false                    |
-| house_number      | string  | null: false                    |
-| building_name     | string  |                                |
-| telephone_number  | string  | null: false                    |
-| item_id           | string  | null: false, foreign_key: true |
+| Column            | Type     | Option                         |
+| ------------------|----------|--------------------------------|
+| postal_code       | string   | null: false                    |
+| prefecture        | string   | null: false                    |
+| city              | string   | null: false                    |
+| house_number      | string   | null: false                    |
+| building_name     | string   |                                |
+| telephone_number  | string   | null: false                    |
+| item_id           | integer  | null: false, foreign_key: true |
 
 ### Association
 
@@ -73,20 +72,10 @@
 
 ## exhibition
 
-| Column            | Type    | Option                         |
-| ------------------|---------|--------------------------------|
-| user_id           | string  | null: false, foreign_key: true |
-| item _id          | string  | null: false, foreign_key: true |
+| Column            | Type     | Option                         |
+| ------------------|----------|--------------------------------|
+| user_id           | integer  | null: false, foreign_key: true |
+| item _id          | integer  | null: false, foreign_key: true |
 
 - belongs_to :user
 - belongs_to :item
-
-
-
-##### ActiveHash
-
-| category_id          | integer  | null: false                    |
-| item_status_id       | integer  | null: false                    |
-| delivery_burden_id   | integer  | null: false                    |
-| sipping_region_id    | integer  | null: false                    |
-| sipping_date_id      | integer  | null: false                    |
