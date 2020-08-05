@@ -26,7 +26,7 @@
 | image                | img      | null: false                    |
 | item_name            | string   | null: false                    |
 | item_explanation     | text     | null: false                    |
-| price                | string   | null: false                    |
+| price                | integer  | null: false                    |
 | user_id              | integer  | null: false, foreign_key: true |
 | category_id          | integer  | null: false                    |
 | item_status_id       | integer  | null: false                    |
@@ -62,7 +62,7 @@
 | city              | string   | null: false                    |
 | house_number      | string   | null: false                    |
 | building_name     | string   |                                |
-| telephone_number  | string   | null: false                    |
+| telephone_number  | integer  | null: false                    |
 | item_id           | integer  | null: false, foreign_key: true |
 
 ### Association
