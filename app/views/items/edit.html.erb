@@ -9,8 +9,7 @@ app/assets/stylesheets/items/new.css %>
     <h2 class="items-sell-title">商品の情報を入力</h2>
     <%= form_with local: true do |f| %>
 
-    <%# インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
-    <%# render 'shared/error_messages', model: f.object %>
+    <%= render 'shared/error_messages', model: f.object %>
     <%# //インスタンスを渡して、エラー発生時にメッセージが表示されるようにしましょう。%>
 
     <%# 出品画像 %>
@@ -66,7 +65,7 @@ app/assets/stylesheets/items/new.css %>
     <div class="items-detail">
       <div class="weight-bold-text question-text">
         <span>配送について</span>
-        <a class="question" href="#">?</a>
+        <%= link_to '?', edit_item_path, class: "question" %>
       </div>
       <div class="form">
         <div class="weight-bold-text">
@@ -92,7 +91,7 @@ app/assets/stylesheets/items/new.css %>
     <div class="sell-price">
       <div class="weight-bold-text question-text">
         <span>販売価格<br>(¥300〜9,999,999)</span>
-        <a class="question" href="#">?</a>
+        <%= link_to '?', edit_item_path, class: "question" %>
       </div>
       <div>
         <div class="price-content">
@@ -122,18 +121,18 @@ app/assets/stylesheets/items/new.css %>
     <%# 注意書き %>
     <div class="caution">
       <p class="sentence">
-        <a href="#">禁止されている出品、</a>
-        <a href="#">行為</a>
+        <%= link_to '禁止されている出品、', edit_item_path %>
+        <%= link_to '行為', edit_item_path %>
         を必ずご確認ください。
       </p>
       <p class="sentence">
         またブランド品でシリアルナンバー等がある場合はご記載ください。
-        <a href="#">偽ブランドの販売</a>
+        <%= link_to '偽ブランドの販売', edit_item_path %>
         は犯罪であり処罰される可能性があります。
       </p>
       <p class="sentence">
         また、出品をもちまして
-        <a href="#">加盟店規約</a>
+        <%= link_to '加盟店規約', edit_item_path %>
         に同意したことになります。
       </p>
     </div>
@@ -149,9 +148,9 @@ app/assets/stylesheets/items/new.css %>
 
   <footer class="items-sell-footer">
     <ul class="menu">
-      <li><a href="#">プライバシーポリシー</a></li>
-      <li><a href="#">フリマ利用規約</a></li>
-      <li><a href="#">特定商取引に関する表記</a></li>
+      <li><%= link_to 'プライバシーポリシー', edit_new_path %></li>
+      <li><%= link_to 'フリマ利用規約', edit_new_path %></li>
+      <li><%= link_to '特定商取引に関する表記', edit_new_path %></li>
     </ul>
     <%= link_to image_tag('furima-logo-color.png' , size: '185x50'), "/" %>
     <p class="inc">
