@@ -21,18 +21,18 @@
 
 ## items テーブル
 
-| Column               | Type     | Option                         |
-| ---------------------|----------|--------------------------------|
-| image                | img      | null: false                    |
-| item_name            | string   | null: false                    |
-| item_explanation     | text     | null: false                    |
-| price                | integer  | null: false                    |
-| user_id              | integer  | null: false, foreign_key: true |
-| category_id          | integer  | null: false                    |
-| item_status_id       | integer  | null: false                    |
-| delivery_burden_id   | integer  | null: false                    |
-| shipping_region_id   | integer  | null: false                    |
-| shipping_date_id     | integer  | null: false                    |
+| Column                    | Type     | Option                         |
+| --------------------------|----------|--------------------------------|
+| image                     | text     | null: false                    |
+| name                      | string   | null: false                    |
+| info                      | text     | null: false                    |
+| category                  | integer  | null: false                    |
+| sales_status              | integer  | null: false                    |
+| shipping_fee_status       | integer  | null: false                    |
+| prefecture                | integer  | null: false                    |
+| scheduled_delivery        | integer  | null: false                    |
+| price                     | integer  | null: false                    |
+| user_id                   | integer  | null: false, foreign_key: true |
 
 ### Association
 
@@ -53,16 +53,16 @@
 - belongs_to :user
 - has_one :buyer
 
-## buyer テーブル
+## transactions テーブル
 
 | Column            | Type     | Option                         |
 | ------------------|----------|--------------------------------|
 | postal_code       | string   | null: false                    |
 | prefecture        | string   | null: false                    |
 | city              | string   | null: false                    |
-| house_number      | string   | null: false                    |
-| building_name     | string   |                                |
-| telephone_number  | integer  | null: false                    |
+| addresses         | string   | null: false                    |
+| building          | string   |                                |
+| phone_number      | integer  | null: false                    |
 | item_id           | integer  | null: false, foreign_key: true |
 
 ### Association
