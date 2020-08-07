@@ -23,15 +23,15 @@
 
 | Column                    | Type     | Option                         |
 | --------------------------|----------|--------------------------------|
-| image_image               | text     | null: false                    |
-| item_name                 | string   | null: false                    |
-| item_info                 | text     | null: false                    |
-| item_category             | integer  | null: false                    |
-| item_sales_status         | integer  | null: false                    |
-| item_shipping_fee_status  | integer  | null: false                    |
-| item_prefecture           | integer  | null: false                    |
-| item_scheduled_delivery   | integer  | null: false                    |
-| item_price                | integer  | null: false                    |
+| image                     | text     | null: false                    |
+| name                      | string   | null: false                    |
+| info                      | text     | null: false                    |
+| category                  | integer  | null: false                    |
+| sales_status              | integer  | null: false                    |
+| shipping_fee_status       | integer  | null: false                    |
+| prefecture                | integer  | null: false                    |
+| scheduled_delivery        | integer  | null: false                    |
+| price                     | integer  | null: false                    |
 | user_id                   | integer  | null: false, foreign_key: true |
 
 ### Association

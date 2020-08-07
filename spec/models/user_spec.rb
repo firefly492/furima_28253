@@ -94,7 +94,7 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password is invalid. Input half-width characters.")
       end
 
-      it "pssswordが入力されていても、password_confirmationが空だと登録できない" do
+      it "passwordが入力されていても、password_confirmationが空だと登録できない" do
         @user.password_confirmation = ""
         @user.valid?
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password", "Password confirmation can't be blank", "Password confirmation is invalid. Input half-width characters.")

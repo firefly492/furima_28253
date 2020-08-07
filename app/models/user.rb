@@ -4,8 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # has_many :items
-
   with_options presence: true do
     validates :nickname, uniqueness: true
     validates :password_confirmation, format: { with: /\A[a-z0-9]+\z/i, message: "is invalid. Input half-width characters."}
@@ -17,6 +15,3 @@ class User < ApplicationRecord
   validates :password,  format: { with: /\A[a-z0-9]+\z/i, message: "is invalid. Input half-width characters."}
   validates :birth_date, presence: true
 end
-
-# validates :birth_date
-# validates :email
