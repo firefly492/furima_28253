@@ -7,7 +7,7 @@ class CreateTransactions < ActiveRecord::Migration[6.0]
       t.string  :addresses,          null: false
       t.string  :building
       t.integer :phone_number,       null: false
-      t.integer :item_id,            null: false, foreign_key: true
+      t.references :item,            null: false, foreign_key: true
       t.timestamps
     end
   end
