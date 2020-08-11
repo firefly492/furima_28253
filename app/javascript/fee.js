@@ -7,15 +7,17 @@ window.addEventListener('load', function() {
 
   inputPrice.addEventListener('input', function() {
     let price = this.value;
-    let sales_commission = price * 0.1;
+    let sales_commission = Math.round(price * 0.1);
+    addTax.textContent = '';
     addTax.insertAdjacentHTML('beforeend', sales_commission);
     console.log(sales_commission)
   })
 
   inputPrice.addEventListener('input', function() {
     let price = this.value;
-    let sales_commission = price * 0.1;
-    let profit_price = price - sales_commission
+    let sales_commission = Math.round(price * 0.1);
+    let profit_price = price - sales_commission;
+    profit.textContent = "";
     profit.insertAdjacentHTML('beforeend', profit_price);
   })
 })
