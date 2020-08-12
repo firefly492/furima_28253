@@ -12,4 +12,10 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(transaction_params)
     @transaction.save
   end
+
+  private
+
+  def transaction_params
+    @params.require(:transaction).permit(:postal_code, :prefecture, :city, :addresses, :building, :phone_number
+    ).merge(item: item_id)
 end
