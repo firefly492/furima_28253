@@ -37,6 +37,7 @@
 ### Association
 
 - belongs_to :user
+- has_one :transaction
 - has_one :exhibition
 - belongs_to :buyer
 
