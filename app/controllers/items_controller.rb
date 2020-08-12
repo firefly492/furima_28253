@@ -3,7 +3,6 @@ before_action :authenticate_user!, only: [:new]
 
   def index
     @item = Item.all.order("created_at DESC")
-    @items_index = @item
   end
 
   def new

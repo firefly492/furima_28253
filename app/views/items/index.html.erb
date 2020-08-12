@@ -126,7 +126,7 @@
     <%= link_to '新規投稿商品', "#", class: "subtitle" %>
     <ul class='item-lists'>
 
-      <% @items_index.each do |i| %>
+      <% @item.each do |i| %>
         <li class='list'>
           <%= link_to "" do %>
             <div class='item-img-content'>
@@ -153,7 +153,7 @@
         </li>
       <% end %>
 
-      <% if @items_index.length >0 %>
+      <% if @item.length >0 %>
       <%else%>
       <li class='list'>
         <%= link_to "/items/:id" do %>
@@ -185,7 +185,7 @@
       
       <%# 商品がない場合のダミー %>
       <%# 商品がある場合は表示されないようにしましょう %>
-      <% if @items_index.length >0 %>
+      <% if @item.length >0 %>
       <% else %>
       <li class='list'>
         <%= link_to '' do %>
