@@ -20,6 +20,7 @@ before_action :authenticate_user!, only: [:new]
 
   def show
     @item = Item.find(params[:id])
+    binding.pry
   end
 
   private
