@@ -15,10 +15,10 @@ class Item < ApplicationRecord
     validates :name,                   length: { maximum: 40 }
     validates :info,                   length: { maximum: 1000 }
   end
-  validates :category_id,            numericality: { other_than: 0, message: "can't be blank" }
-  validates :sales_status_id,        numericality: { other_than: 0, message: "can't be blank" }
-  validates :shipping_fee_status_id, numericality: { other_than: 0, message: "can't be blank" }
-  validates :prefecture_id,          numericality: { other_than: 0, message: "can't be blank" }
-  validates :scheduled_delivery_id,  numericality: { other_than: 0, message: "can't be blank" }
+  validates :category_id,            numericality: { other_than: 1, message: "can't be blank" }
+  validates :sales_status_id,        numericality: { other_than: 1, message: "can't be blank" }
+  validates :shipping_fee_status_id, numericality: { other_than: 1, message: "can't be blank" }
+  validates :prefecture_id,          numericality: { other_than: 1, message: "can't be blank" }
+  validates :scheduled_delivery_id,  numericality: { other_than: 1, message: "can't be blank" }
   validates :price,                  numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9999999 }
 end
