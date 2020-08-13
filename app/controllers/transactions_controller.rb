@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController
-
   def index
     @transaction = Transaction.all
   end
@@ -16,7 +15,6 @@ class TransactionsController < ApplicationController
   private
 
   def transaction_params
-    @params.require(:transaction).permit(:postal_code, :prefecture, :city, :addresses, :building, :phone_number
-    ).merge(item: item_id)
+    @params.require(:transaction).permit(:postal_code, :prefecture, :city, :addresses, :building, :phone_number).merge(item: item_id)
   end
 end

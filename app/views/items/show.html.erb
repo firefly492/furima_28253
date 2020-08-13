@@ -4,65 +4,62 @@
 <div class="item-show">
   <div class="item-box">
     <h2 class="name">
-      <%= "商品名" %>
+      <%= @item.name %>
     </h2>
     <div class='item-img-content'>
-      <%= image_tag "item-sample.png" ,class:"item-box-img" %>
-      <%# 商品が売れている場合は、sould outの表示をしましょう。 %>
+      <%= image_tag @item.image, class:"item-box-img" %>
+      <% if @item.sales_item = false %>
       <div class='sold-out'>
         <span>Sold Out!!</span>
       </div>
-      <%# //商品が売れている場合は、sould outの表示をしましょう。 %>
+      <% end %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
-        ¥ 999,999,999
+        <%= @item.price %>円
       </span>
       <span class="item-postage">
         (税込) 送料込み
       </span>
     </div>
 
-    <%# ログインしていて、なおかつ、ログインしているユーザと出品しているユーザが同一人物でないとき表示しましょう。 %>
-
-    <%= link_to '商品の編集', edit_item_path, method: :get, class: "item-red-btn" %>
-    <p class='or-text'>or</p>
-    <%= link_to '削除', "#", method: :delete, class:'item-destroy' %>
-
-    <%# 商品が売れていない場合はこちらを表示しましょう %>
-    <%= link_to '購入画面に進む', transactions_path ,class:"item-red-btn"%>
-    <%# //商品が売れていない場合はこちらを表示しましょう %>
-
-    <%# //ログインしていて、なおかつ、ログインしているユーザと出品しているユーザが同一人物でないとき表示しましょう。 %>
+    <% if user_signed_in? && (current_user == @item.user ) %>
+      <%= link_to '商品の編集', edit_item_path, method: :get, class: "item-red-btn" %>
+      <p class='or-text'>or</p>
+      <%= link_to '削除', "#", method: :delete, class:'item-destroy' %>
+    <% end %>
+    <% if @item.sales_item == false && (current_user != @item.user ) %>
+      <%= link_to '購入画面に進む', transactions_path ,class:"item-red-btn"%>
+    <% end %>
 
     <div class="item-explain-box">
-      <span><%= "商品説明" %></span>
+      <span><%= @item.info %></span>
     </div>
     <table class="detail-table">
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= "出品者名" %></td>
+          <td class="detail-value"><%= @item.name %></td>
         </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
-          <td class="detail-value"><%= "カテゴリー名" %></td>
+          <td class="detail-value"><%= @item.category.name %></td>
         </tr>
         <tr>
           <th class="detail-item">商品の状態</th>
-          <td class="detail-value"><%= "商品の状態" %></td>
+          <td class="detail-value"><%= @item.sales_status.name %></td>
         </tr>
         <tr>
           <th class="detail-item">配送料の負担</th>
-          <td class="detail-value"><%= "発送料の負担" %></td>
+          <td class="detail-value"><%= @item.shipping_fee_status.name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送元の地域</th>
-          <td class="detail-value"><%= "発送元の地域" %></td>
+          <td class="detail-value"><%= @item.prefecture.name %></td>
         </tr>
         <tr>
           <th class="detail-item">発送日の目安</th>
-          <td class="detail-value"><%= "発送日の目安" %></td>
+          <td class="detail-value"><%= @item.scheduled_delivery.name %></td>
         </tr>
       </tbody>
     </table>
@@ -97,8 +94,8 @@
     <%= link_to '＜ 前の商品', item_path, class: "change-item-btn" %>
     <%= link_to '後ろの商品 ＞', "#",  class: "change-item-btn" %>
   </div>
-  <%= link_to '商品のカテゴリー名をもっと見る', item_path, class: 'another-item' %>
-  <%# <a href="#" class="another-item">レディースをもっと見る</a> %>
+  <%= link_to "#{@item.category.name}をもっと見る", item_path, class: 'another-item' %>
 </div>
+
 
 <%= render "shared/footer" %>
