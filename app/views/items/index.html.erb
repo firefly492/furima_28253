@@ -182,7 +182,6 @@
       </li>
       <% end %>
       
-      <%# 商品がない場合のダミー %>
       <% if @item.length == 0 %>
       <li class='list'>
         <%= link_to '' do %>
@@ -209,6 +208,6 @@
 
 <div class='purchase-btn' >
   <%= link_to  "出品する", new_item_path, class: 'purchase-btn-text' %>
-  <%= image_tag 'camera.png', size: '185x50' ,class: "purchase-btn-icon" %>
+    <%= image_tag 'camera.png', size: '185x50' ,class: "purchase-btn-icon" %>
 </div>
 <%= render "shared/footer" %>
