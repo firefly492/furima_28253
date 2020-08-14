@@ -1,7 +1,7 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destoroy
   belongs_to :user
 
   belongs_to_active_hash :category
