@@ -11,6 +11,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :scheduled_delivery
 
   with_options presence: true do
+    validates :image
     validates :name,                   length: { maximum: 40 }
     validates :info,                   length: { maximum: 1000 }
   end
@@ -24,4 +25,33 @@ class Item < ApplicationRecord
   end
 
   validates :price,                  numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+
+  def self.save_from_yml!(yml_path)
+    yml = yml.load(yml_path)
+    item = self.new
+    item.image = yml['image']
+    item.name = yml['name']
+    item.info = yml['info']
+    item.category_id = yml['category_id']
+    item.sales_status_id = yml['sales_status_id']
+    item.shipping_fee_status_id = yml['shipping_fee_status_id']
+    item.prefecture_id = yml['prefecture_id']
+    item.scheduled_delivery_id = yml['scheduled_delivery_id']
+    item.price = yml['price']
+    item.save_from_yml!
+  end
+
+  def self.edit_item!(image, name, info, category_id, sales_status_id, shipping_fee_status_id,prefecture_id, scheduled_delivery_id, price)
+    item = self.new
+    item.image = self.find_by!(data: image)
+    item.name = self.find_by!(data: name)
+    item.info = self.find_by!(data: info)
+    item.category_id = self.find_by!(data: category_id)
+    item.sales_status_id = self.find_by!(data: sales_status_id)
+    item.shipping_fee_status_id = self.find_by!(data: shipping_fee_status_id)
+    item.prefecture_id = self.find_by!(data: prefecture_id)
+    item.scheduled_delivery_id = self.find_by!(data: scheduled_delivery_id)
+    item.price = self.find_by!(data: price)
+    item.save!
+  end
 end
