@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
+
   def index
-    @transaction = Transaction.all
+    
   end
 
   def new
@@ -9,12 +10,27 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(transaction_params)
-    @transaction.save
+    if @transaction.valid?
+      pay_item
+      @transaction.save
+      return redirect_to root_path
+    else
+      render 'index'
+    end
   end
 
   private
 
   def transaction_params
-    @params.require(:transaction).permit(:postal_code, :prefecture, :city, :addresses, :building, :phone_number).merge(item: item_id)
+    params.permit(:postal_code, :prefecture, :city, :addresses, :building, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id])
+  end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
+      card: params[:token],
+      amount:  99,#transaction_params[:price],
+      currency: 'jpy'
+    )
   end
 end
