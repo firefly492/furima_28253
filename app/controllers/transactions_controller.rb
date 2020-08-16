@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
 
   def index
-    
+    @item = Item.find(params[:item_id])
   end
 
   def new
@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       card: params[:token],
-      amount:  99,#transaction_params[:price],
+      amount:  Item.find(params[:item_id]).price,
       currency: 'jpy'
     )
   end
