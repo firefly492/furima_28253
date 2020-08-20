@@ -3,6 +3,8 @@ class Item < ApplicationRecord
 
   has_one_attached :image, dependent: :destoroy
   belongs_to :user
+  has_one :address
+  has_one :buyer
 
   belongs_to_active_hash :category
   belongs_to_active_hash :sales_status

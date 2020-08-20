@@ -28,8 +28,13 @@
       <p class='or-text'>or</p>
       <%= link_to '削除', "#", method: :delete, class:'item-destroy' %>
     <% end %>
+
     <% if @item.sales_item == false && (current_user != @item.user ) %>
-      <%= link_to '購入画面に進む', transactions_path ,class:"item-red-btn"%>
+      <% if user_signed_in? %>
+        <%= link_to '購入画面に進む', item_buyers_path(@item), class:"item-red-btn"%>
+      <% else %>
+        <%= link_to '購入画面に進む', user_session_path,class:"item-red-btn"%>
+      <% end %>
     <% end %>
 
     <div class="item-explain-box">
