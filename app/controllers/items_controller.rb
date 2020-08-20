@@ -1,7 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new]
   before_action :item_data, only: [:show, :edit, :destroy]
-  # before_action
 
   def index
     @item = Item.all.order('created_at DESC')
@@ -46,10 +45,4 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  # def item_user
-  #   @item = Item.find(params[:id])
-  #   if @item.user.(item.id).click.not(transactions_path)
-  #     @item.user.get.not(transaction_path)
-  #     redirect_to root_path
-  #   end
 end

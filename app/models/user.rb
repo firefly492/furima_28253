@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :item, dependent: :destroy
+  has_one :buyer
 
   with_options presence: true do
     validates :nickname, uniqueness: true

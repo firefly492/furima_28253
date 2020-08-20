@@ -27,9 +27,9 @@
       </p>
     </div>
 
-    <%= form_with model: @transaction,  url: item_transactions_path, method: :POST, id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
+    <%= form_with model: @address,  url: item_buyers_path, method: :POST, id: 'charge-form', class: 'transaction-form-wrap',local: true do |f| %>
 
-    <%= render 'shared/error_messages', model: @transaction %>
+    <%= render 'shared/error_messages', model: @address %>
 
     <div class='credit-card-form'>
       <h1 class='info-input-haedline'>

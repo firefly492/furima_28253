@@ -16,8 +16,8 @@
 ### Association
 
 - has_many :items
+- has_one :buyer
 - has_many :comments
-- has_one :exhibition
 
 ## items テーブル
 
@@ -38,23 +38,9 @@
 
 - belongs_to :user
 - has_one :transaction
-- has_one :exhibition
-- belongs_to :buyer
-
-## comments テーブル
-
-| Column            | Type     | Option                         |
-| ------------------|----------|--------------------------------|
-| comment           | text     | null: false                    |
-| user_id           | integer  | null: false, foreign_key: true |
-| buyer_id          | integer  | null: false, foreign_key: true |
-
-### Association
-
-- belongs_to :user
 - has_one :buyer
 
-## transactions テーブル
+## addresses テーブル
 
 | Column            | Type     | Option                         |
 | ------------------|----------|--------------------------------|
@@ -71,7 +57,7 @@
 - belongs_to :item
 - has_many :comments
 
-## exhibition
+## buyers
 
 | Column            | Type     | Option                         |
 | ------------------|----------|--------------------------------|
@@ -80,3 +66,16 @@
 
 - belongs_to :user
 - belongs_to :item
+
+## comments テーブル
+
+| Column            | Type     | Option                         |
+| ------------------|----------|--------------------------------|
+| comment           | text     | null: false                    |
+| user_id           | integer  | null: false, foreign_key: true |
+| buyer_id          | integer  | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :user
+- has_one :buyer
