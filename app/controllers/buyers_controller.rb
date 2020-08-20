@@ -5,12 +5,6 @@ class BuyersController < ApplicationController
   def index
     @address = BuyerAddress.new
     @item = Item.find(params[:item_id])
-    
-    
-    
-    # @item = Item.find(params[:item_id])
-    # @address = BuyerAddress.new
-    # address = BuyerAddress.find(:user_id)
   end
 
   def new
@@ -51,7 +45,6 @@ class BuyersController < ApplicationController
   end
 
   def purchase_item
-    # @item = Item.find(params[:id])
     if @item.sales_item == true
         redirect_to root_path
     end

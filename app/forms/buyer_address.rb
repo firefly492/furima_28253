@@ -3,11 +3,14 @@ class BuyerAddress
   include ActiveModel::Model
   attr_accessor :postal_code, :prefecture, :city, :addresses, :building, :phone_number, :user_id, :item_id
 
+  postal = /\A\d{3}[-]\d{4}\z/
+  telephone = /\A\d{10}$|^\d{11}\z/
+
   with_options presence: true do
-    validates :postal_code, format: { with: /\A\d{3}[-]\d{4}\z/, message: "is invalid. Include hyphen(-)" }
+    validates :postal_code, format: { with: postal, message: "is invalid. Include hyphen(-)" }
     validates :city
     validates :addresses
-    validates :phone_number, format: { with:  /\A\d{10}$|^\d{11}\z/, message: "is invalid. 11 characters."} 
+    validates :phone_number, format: { with: telephone, message: "is invalid. 11 characters."} 
   end
 
   validates :prefecture, numericality: { other_than: 1, message: "can't be blank" }
