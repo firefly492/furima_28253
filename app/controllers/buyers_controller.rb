@@ -37,13 +37,6 @@ class BuyersController < ApplicationController
     )
   end
 
-  # def  no_current_user
-  #   @item = Item.find(params[:id])
-  #   if user_id == nil
-  #     redirect_to root_path
-  #   end
-  # end
-
   def current_item_user
     @item = Item.find(params[:item_id])
     if @item.sales_item == false && (current_user == @item.user )
