@@ -204,3 +204,8 @@
   font-weight: bold;
   font-size: 23px;
 }
+
+.comments {
+  padding: 5px;
+  margin-top: 15px;
+}

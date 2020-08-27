@@ -82,10 +82,10 @@
     </div>
   </div>
   <%# /商品の概要 %>
+
   <% if user_signed_in? %>
     <div class="comment-box">
-    <%= form_with(model: [@item,@comment], local: true) do |f| %>
-      <form>
+      <%= form_with model: [@item, @comment], local: true do |f| %>
         <%= f.text_area :text, class:"comment-text" %>
         <p class="comment-warn">
           相手のことを考え丁寧なコメントを心がけましょう。
@@ -94,19 +94,24 @@
         </p>
         <%= f.submit 'コメントする', class: "comment-btn" %>
           <%= link_to image_tag("comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25") %>
-      </form>
+          <%#= link_to do %>
+            <%#= f.submit 'コメントする', class: "comment-btn" %>
+              <%#= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25" %>
+              <%# end %>
       <% end %>
     </div>
   <% end %>
-      <% if @comments %>
-      <h4 class="change-item-btn">＜コメント一覧＞</h4>
-        <% @comments.each do |comment| %>
-          <p>
-            <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}", class:"change-item-btn" %>：</strong>
-            <%= comment.text %>
-          </p>
-        <% end %>
+  <div class="comments">
+    <% if @comments %>
+    <h4 class="change-item-btn">＜コメント一覧＞</h4>
+      <% @comments.each do |comment| %>
+        <p>
+          <strong><%= link_to comment.user.nickname, "" %>：</strong>
+          <%= comment.text %>
+        </p>
       <% end %>
+    <% end %>
+  </div>
   
   <div class="links">
     <%= link_to '＜ 前の商品', item_path, class: "change-item-btn" %>
