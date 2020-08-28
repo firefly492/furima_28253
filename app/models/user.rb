@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_one :item, dependent: :destroy
   has_one :buyer
+  has_many :comments
 
   with_options presence: true do
     validates :nickname, uniqueness: true
