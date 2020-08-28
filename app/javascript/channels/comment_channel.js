@@ -9,20 +9,20 @@ consumer.subscriptions.create("CommentChannel", {
     // Called when the subscription has been terminated by the server
   },
 
-  // received(data) {
-  //   const html = `text_field${data.content.text}`;
-  //   console.log(data)
-  //   const comments = document.getElementById('comment-text-id');
-  //   const newComment = document.getElementById('comments_text');
-  //   comments.insertAdjacentHTML('afterbegin', html);
-  //   newComment.value='';
-
   received(data) {
-    const html = `text_field${data.content.text}`;
-    console.log(data)
+    const html = `
+        <p class="comment-warn">
+          <strong>
+            <a href>${data.user.nickname}</a>
+            :
+          </strong>
+          ${data.content.text}
+        </p>`;
     const comments = document.getElementById('comment-text-id');
-    const newComment = document.getElementById('comments_text');
-    comments.insertAdjacentHTML('afterbegin', html);
+    const newComment = document.getElementById('comment_text');
+    console.log(comments);
+    comments.insertAdjacentHTML('afterend', html);
     newComment.value='';
+    document.getElementById("comment-btn-id").removeAttribute("disabled");
   }
 });
