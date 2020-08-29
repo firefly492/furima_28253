@@ -26,43 +26,43 @@ RSpec.describe BuyerAddress, type: :model do
       it '郵便番号が正しく入力できていなければ保存できない' do
         @buyer_address.postal_code = nil
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Postal code can't be blank")
+        expect(@buyer_address.errors.full_messages).to include('郵便番号を入力してください', '郵便番号を（ハイフン）入れて入力してください')
       end
 
       it '郵便番号が7桁でハイフン(-)が入力されていなければ保存できない' do
         @buyer_address.postal_code = '1234567'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
+        expect(@buyer_address.errors.full_messages).to include('郵便番号を（ハイフン）入れて入力してください')
       end
 
       it '都道府県が正しく入力できていなければ保存できない' do
         @buyer_address.prefecture = nil
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Prefecture can't be blank")
+        expect(@buyer_address.errors.full_messages).to include('都道府県を入力してください')
       end
 
       it '市町村が正しく入力できていなければ保存できない' do
         @buyer_address.city = nil
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("City can't be blank")
+        expect(@buyer_address.errors.full_messages).to include('市区町村を入力してください')
       end
 
       it '番地が正しく入力できていなければ保存できない' do
         @buyer_address.addresses = nil
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Addresses can't be blank")
+        expect(@buyer_address.errors.full_messages).to include('番地を入力してください')
       end
 
       it '電話番号が正しく入力できていなければ保存できない' do
         @buyer_address.phone_number = nil
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include("Phone number can't be blank")
+        expect(@buyer_address.errors.full_messages).to include('電話番号を入力してください', '電話番号を11桁で入力してください')
       end
 
       it '電話番号が11桁出なければ保存できない' do
         @buyer_address.phone_number = '0901234567'
         @buyer_address.valid?
-        expect(@buyer_address.errors.full_messages).to include('Phone number is invalid. 11 characters.')
+        expect(@buyer_address.errors.full_messages).to include('電話番号を11桁で入力してください')
       end
     end
   end

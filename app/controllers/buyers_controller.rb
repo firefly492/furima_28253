@@ -1,7 +1,6 @@
 class BuyersController < ApplicationController
   before_action :current_item_user, :purchase_item
 
-
   def index
     @address = BuyerAddress.new
     @item = Item.find(params[:item_id])
@@ -15,7 +14,7 @@ class BuyersController < ApplicationController
     if @address.valid?
       pay_item
       @address.save
-      return redirect_to root_path
+      redirect_to root_path
     else
       @item = Item.find(params[:item_id])
       render :index
@@ -29,7 +28,7 @@ class BuyersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       card: params[:token],
       amount: Item.find(params[:item_id]).price,
@@ -39,16 +38,11 @@ class BuyersController < ApplicationController
 
   def current_item_user
     @item = Item.find(params[:item_id])
-    if @item.sales_item == false && (current_user == @item.user )
-        redirect_to root_path
-    end
+    redirect_to root_path if @item.sales_item == false && (current_user == @item.user)
   end
 
   def purchase_item
     @item = Item.find(params[:item_id])
-    if @item.buyer
-        redirect_to root_path
-    end
+    redirect_to root_path if @item.buyer
   end
-
 end
