@@ -60,5 +60,4 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  server '3.115.209.14', user: 'ec2-user', roles: %w{app db web}
 end
