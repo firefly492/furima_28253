@@ -19,7 +19,7 @@ class Item < ApplicationRecord
     validates :info,                   length: { maximum: 1000 }
   end
 
-  with_options numericality: { other_than: 1, message: "can't be blank" } do
+  with_options numericality: { other_than: 1, message: "を入力してください" } do
     validates :category_id
     validates :sales_status_id
     validates :shipping_fee_status_id
