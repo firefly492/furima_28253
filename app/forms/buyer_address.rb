@@ -12,7 +12,7 @@ class BuyerAddress
     validates :phone_number, format: { with: telephone, message: 'を11桁で入力してください' }
   end
 
-  validates :prefecture, numericality: { other_than: 1, message: "を入力してください" }
+  validates :prefecture, numericality: { other_than: 1, message: 'を入力してください' }
 
   def save
     address = Address.create(postal_code: postal_code, prefecture: prefecture, city: city, addresses: addresses, building: building, phone_number: phone_number, item_id: item_id)
