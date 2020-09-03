@@ -5,7 +5,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one :address
   has_one :buyer
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   belongs_to_active_hash :category
   belongs_to_active_hash :sales_status
