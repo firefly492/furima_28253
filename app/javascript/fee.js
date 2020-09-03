@@ -11,7 +11,6 @@ window.addEventListener('load', function() {
     let sales_commission = Math.round(price * 0.1);
     addTax.textContent = '';
     addTax.insertAdjacentHTML('beforeend', sales_commission);
-    console.log(sales_commission)
   })
 
   inputPrice.addEventListener('input', function() {

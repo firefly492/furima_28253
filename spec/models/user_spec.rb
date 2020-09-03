@@ -4,7 +4,6 @@ RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
   end
-  # pending "add some examples to (or delete) #{__FILE__}"
 
   describe 'ユーザー新規登録' do
     context 'ユーザー新規登録がうまくいくとき' do
