@@ -5,6 +5,4 @@ Rails.application.routes.draw do
     resources :buyers, only: [:index, :new, :create]
     resources :comments, only: [:create, :show]
   end
-  
-  
 end
