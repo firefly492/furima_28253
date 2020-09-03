@@ -20,7 +20,7 @@ consumer.subscriptions.create("CommentChannel", {
         </p>`;
     const comments = document.getElementById('comment-text-id');
     const newComment = document.getElementById('comment_text');
-    comments.insertAdjacentHTML('afterend', html);
+    comments.insertAdjacentHTML('beforeend', html);
     newComment.value='';
     document.getElementById("comment-btn-id").removeAttribute("disabled");
   }
