@@ -1,3 +1,4 @@
+if (location.pathname.match("items/new")){
 window.addEventListener('load', function() {
 
   const inputPrice = document.getElementById("item-price")
@@ -21,4 +22,4 @@ window.addEventListener('load', function() {
     profit.insertAdjacentHTML('beforeend', profit_price);
   })
 })
-
+};

@@ -20,7 +20,6 @@ consumer.subscriptions.create("CommentChannel", {
         </p>`;
     const comments = document.getElementById('comment-text-id');
     const newComment = document.getElementById('comment_text');
-    console.log(comments);
     comments.insertAdjacentHTML('afterend', html);
     newComment.value='';
     document.getElementById("comment-btn-id").removeAttribute("disabled");
