@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'ユーザー新規登録', type: :system do
-  def basic_login
-    @request.env ||= {}
-    user = "admin"
-    pass = "1111"
-    @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pass)
-  end
 
   before do
     @user = FactoryBot.build(:user)

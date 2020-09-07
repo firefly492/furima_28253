@@ -198,6 +198,9 @@ RSpec.describe '商品編集', type: :system do
       expect(current_path).to eq root_path
       visit item_path(@item.id)
 
+      # 商品詳細ページに編集ボタンがあることを確認する
+      expect(page).to have_content('商品の編集')
+
       # 商品編集画面へ遷移することができる
       visit edit_item_path(@item.id)
 
@@ -212,14 +215,14 @@ RSpec.describe '商品編集', type: :system do
 
       # 商品情報を変更する
 
-      fill_in 'item-name', with: @item.name
-      fill_in 'item-info', with: @item.info
+      fill_in 'item-name', with: "カメラ"
+      fill_in 'item-info', with: "本体です"
       select "メンズ", from: "item-category"
       select "傷や汚れあり", from: "item-sales-status"
       select "送料込み（出品者負担）", from: "item-shipping-fee-status"
       select "東京都", from: "item-prefecture"
       select "2~3日で発送", from: "item-scheduled-delivery"
-      fill_in 'item-price', with: @item.price
+      fill_in 'item-price', with: "5000"
 
       # 出品してもItemモデルのカウントが上がらないことを確認する
       expect{
@@ -230,13 +233,14 @@ RSpec.describe '商品編集', type: :system do
       expect(current_path).to eq item_path(@item.id)
 
       # 商品詳細ページの商品情報が編集されているか確認する
-      expect(page).to have_content(@item.name)
-      expect(page).to have_content(@item.info)
+      expect(page).to have_content('カメラ')
+      expect(page).to have_content('本体です')
       expect(page).to have_content('メンズ')
       expect(page).to have_content('傷や汚れあり')
       expect(page).to have_content('送料込み（出品者負担）')
       expect(page).to have_content('東京都')
       expect(page).to have_content('2~3日で発送')
+      expect(page).to have_content('5000')
 
     end
   end
@@ -339,3 +343,33 @@ RSpec.describe '商品購入', type: :system do
   end
 end
 
+RSpec.describe '商品削除', type: :system do
+  before do
+    @user1 = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user1.id)
+  end
+  context '商品の削除をすることができる'do
+    it '商品出品者は自ら出品商品を削除することができる' do
+      # ログインして商品詳細ページへ移動する
+      visit new_user_session_path
+      fill_in 'email', with: @user1.email
+      fill_in 'password', with: @user1.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+      visit item_path(@item.id)
+
+      # 商品詳細ページに削除ボタンがあることを確認する
+      expect(page).to have_content('削除')
+
+      # 削除ボタンを押すことができる
+      find('a[class="item-destroy"]').click
+
+      # 削除ボタンを押すとトップページへ遷移することを確認する
+      expect(current_path).to eq root_path
+
+      # トップページには先ほど出品した商品画像が存在しないことを確認する（画像）
+      expect(page).to  have_no_selector("img[src$='camera.png']")
+
+    end
+  end
+end
