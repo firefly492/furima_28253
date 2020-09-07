@@ -132,7 +132,7 @@ RSpec.describe '商品詳細', type: :system do
       expect(page).to have_content('購入画面に進む')
 
       # 商品詳細ページにコメントボタンが表示されていないことを確認する
-      expect(page).to have_no_content('コメントする')
+      expect(page).to have_no_selector('input[value="コメントする"]')
     end
 
     it '出品者は商品詳細画面で編集・削除ボタンがある' do
@@ -363,6 +363,73 @@ RSpec.describe '商品削除', type: :system do
 
       # トップページには先ほど出品した商品画像が存在しないことを確認する（画像）
       expect(page).to have_no_selector("img[src$='camera.png']")
+    end
+  end
+end
+
+RSpec.describe 'コメント', type: :system, js: true do
+  before do
+    @user1 = FactoryBot.create(:user)
+    @user2 = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user1.id)
+  end
+  context '商品のコメントをすることができる' do
+    it 'ログインユーザーは商品詳細ページでコメントすることができる'  do
+      # 出品者がログインして商品詳細ページへ移動する
+      visit new_user_session_path
+      fill_in 'email', with: @user1.email
+      fill_in 'password', with: @user1.password
+      find('input[name="commit"]').click
+      visit item_path(@item.id)
+
+      # 商品詳細ページにコメントボタンが表示されていることを確認する
+      expect(page).to have_selector('input[value="コメントする"]')
+
+      # 出品者がコメントを入力
+      fill_in 'comment[text]', with: "質問してもいいですか？"
+      
+      # コメントされたらコメントモデルのカウントが1上がることを確認する
+      expect { 
+        find('input[value="コメントする"]').click
+        sleep(2)
+      }.to change { Comment.count }.by(1)
+
+      # ログアウトして出品者以外でログインして詳細ページへ移動する
+      find('a[href="/users/sign_out"]').click
+      visit root_path
+      visit new_user_session_path
+      fill_in 'email', with: @user2.email
+      fill_in 'password', with: @user2.password
+      find('input[name="commit"]').click
+      visit item_path(@item.id)
+
+      # 既にコメントしたユーザー名とコメントの文を確認できる
+      expect(page).to have_content(@user1.nickname)
+      expect(page).to have_content("質問してもいいですか？")
+
+      # 出品者以外のログインユーザーがコメントできる
+      fill_in 'comment[text]', with: "なんでも聞いてください。"
+
+      # コメントされたらコメントモデルのカウントが1上がることを確認する
+      expect { 
+        find('input[value="コメントする"]').click
+        sleep(2)
+      }.to change { Comment.count }.by(1)
+
+      # コメントしたユーザー名とコメントの文を確認できる
+      expect(page).to have_content(@user2.nickname)
+      expect(page).to have_content("なんでも聞いてください。")
+    end
+
+    it 'ログインしていないユーザーは商品詳細ページでコメントすることができない' do
+      # ログインせず商品詳細ページへ移動する
+      # find('a[href="/users/sign_out"]').click
+      visit root_path
+      visit item_path(@item.id)
+
+      # 商品詳細ページにコメントボタンが表示されていないことを確認する
+      expect(page).to have_no_selector('input[value="コメントする"]')
+
     end
   end
 end
