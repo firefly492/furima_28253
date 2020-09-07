@@ -104,7 +104,7 @@ RSpec.describe '商品詳細', type: :system do
   end
 
   context '商品の詳細をみることができる'do
-    it '出品者以外のログインユーザーは詳細画面で購入画面ボタンがある' do
+    it '出品者以外のユーザーは詳細画面で購入画面ボタンがある' do
       # ログインする
       visit new_user_session_path
       fill_in 'email', with: @user1.email
@@ -176,6 +176,166 @@ RSpec.describe '商品詳細', type: :system do
       expect(page).to have_content('商品の編集')
       expect(page).to have_content('削除')
 
+      # 商品詳細ページにコメントボタンが表示されていることを確認する
+      expect(page).to have_selector('input[value="コメントする"]')
+
     end
   end
 end
+
+RSpec.describe '商品編集', type: :system do
+  before do
+    @user1 = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user1.id)
+  end
+  context '商品の編集をすることができる'do
+    it '商品出品者は出品商品を編集することができる' do
+      # ログインして商品詳細ページへ移動する
+      visit new_user_session_path
+      fill_in 'email', with: @user1.email
+      fill_in 'password', with: @user1.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+      visit item_path(@item.id)
+
+      # 商品編集画面へ遷移することができる
+      visit edit_item_path(@item.id)
+
+      # 商品詳細ページに商品情報が表示されている
+      expect(page).to have_content(@item.name)
+      expect(page).to have_content(@item.info)
+      expect(page).to have_content(@item.category.name)
+      expect(page).to have_content(@item.sales_status.name)
+      expect(page).to have_content(@item.shipping_fee_status.name)
+      expect(page).to have_content(@item.prefecture.name)
+      expect(page).to have_content(@item.scheduled_delivery.name)
+
+      # 商品情報を変更する
+
+      fill_in 'item-name', with: @item.name
+      fill_in 'item-info', with: @item.info
+      select "メンズ", from: "item-category"
+      select "傷や汚れあり", from: "item-sales-status"
+      select "送料込み（出品者負担）", from: "item-shipping-fee-status"
+      select "東京都", from: "item-prefecture"
+      select "2~3日で発送", from: "item-scheduled-delivery"
+      fill_in 'item-price', with: @item.price
+
+      # 出品してもItemモデルのカウントが上がらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Item.count }.by(0)
+
+      # 商品詳細ページに遷移することを確認する
+      expect(current_path).to eq item_path(@item.id)
+
+      # 商品詳細ページの商品情報が編集されているか確認する
+      expect(page).to have_content(@item.name)
+      expect(page).to have_content(@item.info)
+      expect(page).to have_content('メンズ')
+      expect(page).to have_content('傷や汚れあり')
+      expect(page).to have_content('送料込み（出品者負担）')
+      expect(page).to have_content('東京都')
+      expect(page).to have_content('2~3日で発送')
+
+    end
+  end
+end
+
+RSpec.describe '商品購入', type: :system do
+  before do
+    @user1 = FactoryBot.create(:user)
+    @user2 = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user1.id)
+    @address = FactoryBot.build(:buyer_address, item_id: @item.id, )
+
+  end
+
+  context '商品の購入をすることができる'do
+    it '出品者以外のログインユーザーは商品を購入できる' do
+      # ログインして商品詳細ページへ移動する
+      visit new_user_session_path
+      fill_in 'email', with: @user2.email
+      fill_in 'password', with: @user2.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+      visit item_path(@item.id)
+
+      # 商品購入画面に移動する
+      visit item_buyers_path(@item)
+
+      # フォームに情報を入力する
+      fill_in 'card-number', with: '4242424242424242'
+      fill_in 'card-exp-month', with: '3'
+      fill_in 'card-exp-year', with: '23'
+      fill_in 'card-cvc', with: '123'
+      fill_in 'postal-code', with: @address.postal_code
+      select "北海道", from: "prefecture"
+      fill_in 'city', with: @address.city
+      fill_in 'addresses', with: @address.addresses
+      fill_in 'phone-number', with: @address.phone_number
+
+      # 購入ボタンを押すとAddressモデルのカウントが1上がることを確認する
+      expect{
+        find('input[name="commit"]').click 
+        sleep(3)
+      }.to change { Address.count }.by(1)
+
+      # トップページに遷移することを確認する
+      expect(current_path).to eq root_path
+
+      # トップページにsoldoutがあることを確認する
+      expect(page).to have_content('Sold Out!!')
+    end
+
+    it '誤った情報では商品を購入できずに商品購入ページへ戻ってくる' do
+        # ログインして商品詳細ページへ移動する
+      visit new_user_session_path
+      fill_in 'email', with: @user2.email
+      fill_in 'password', with: @user2.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+      visit item_path(@item.id)
+
+      # 商品購入画面に移動する
+      visit item_buyers_path(@item)
+  
+      # フォームに情報を入力する
+      fill_in 'card-number', with: nil
+      fill_in 'card-exp-month', with: nil
+      fill_in 'card-exp-year', with: nil
+      fill_in 'card-cvc', with: nil
+      fill_in 'postal-code', with: nil
+      select "北海道", from: "prefecture"
+      fill_in 'city', with: nil
+      fill_in 'addresses', with: nil
+      fill_in 'phone-number', with: nil
+  
+      # 購入してもBuyerモデルとAddressモデルのカウントが上がらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Buyer.count }.by(0)
+
+      expect{
+        find('input[name="commit"]').click
+      }.to change { Address.count }.by(0)
+
+
+      # 商品購入ページへ戻されることを確認する
+      expect(current_path).to eq item_buyers_path(@item)
+    end
+
+    it 'ログインしていないユーザーは商品購入画面へ移動できない' do
+      # 商品詳細ページへ移動する
+      visit item_path(@item.id)
+
+      # 商品詳細ページで購入画面へ進むを押す
+      find('a[class="item-red-btn"]').click
+
+      # 購入画面に進むを押すとログインページへ遷移することを確認する
+      expect(current_path).to eq new_user_session_path
+
+    end
+  end
+end
+
