@@ -96,3 +96,86 @@ RSpec.describe '商品出品', type: :system do
     end
   end
 end
+
+RSpec.describe '商品詳細', type: :system do
+  before do
+    @user1 = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user_id: @user1.id)
+  end
+
+  context '商品の詳細をみることができる'do
+    it '出品者以外のログインユーザーは詳細画面で購入画面ボタンがある' do
+      # ログインする
+      visit new_user_session_path
+      fill_in 'email', with: @user1.email
+      fill_in 'password', with: @user1.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+
+      # ログアウトする
+      find('a[href="/users/sign_out"]').click
+      visit root_path
+      
+      # 商品詳細ページへ移動する
+      visit item_path(@item.id)
+
+      # 商品詳細ページに商品情報が表示されている
+      expect(page).to have_content(@item.name)
+      expect(page).to have_content(@item.info)
+      expect(page).to have_content(@item.category.name)
+      expect(page).to have_content(@item.sales_status.name)
+      expect(page).to have_content(@item.shipping_fee_status.name)
+      expect(page).to have_content(@item.prefecture.name)
+      expect(page).to have_content(@item.scheduled_delivery.name)
+
+      # 商品詳細ページに購入画面ボタンがあることを確認する
+      expect(page).to have_content('購入画面に進む')
+
+      # 商品詳細ページにコメントボタンが表示されていないことを確認する
+      expect(page).to have_no_content('コメントする')
+
+    end
+
+    it '出品者は商品詳細画面で編集・削除ボタンがある' do
+      # ログインする
+      visit new_user_session_path
+      fill_in 'email', with: @user1.email
+      fill_in 'password', with: @user1.password
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+
+      # 商品を出品する
+      visit new_item_path
+      attach_file 'item-image', "#{Rails.root}/app/assets/images/camera.png"
+      fill_in 'item-name', with: @item.name
+      fill_in 'item-info', with: @item.info
+      select "メンズ", from: "item-category"
+      select "未使用に近い", from: "item-sales-status"
+      select "着払い（購入者負担）", from: "item-shipping-fee-status"
+      select "京都府", from: "item-prefecture"
+      select "1~2日で発送", from: "item-scheduled-delivery"
+      fill_in 'item-price', with: @item.price
+      find('input[name="commit"]').click
+      expect(current_path).to eq root_path
+
+      # 商品詳細ページへ移動する
+      visit item_path(@item.id)
+
+      # 商品詳細ページに商品情報が表示されている
+      expect(page).to have_content(@item.name)
+      expect(page).to have_content(@item.info)
+      expect(page).to have_content(@item.category.name)
+      expect(page).to have_content(@item.sales_status.name)
+      expect(page).to have_content(@item.shipping_fee_status.name)
+      expect(page).to have_content(@item.prefecture.name)
+      expect(page).to have_content(@item.scheduled_delivery.name)
+
+      expect(page).to have_no_content('購入画面に進む')
+      
+      # 商品詳細ページに編集・削除ボタンがあることを確認する
+      expect(page).to have_content('商品の編集')
+      expect(page).to have_content('削除')
+
+    end
+  end
+end
