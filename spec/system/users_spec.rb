@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'ユーザー新規登録', type: :system do
-
   before do
     @user = FactoryBot.build(:user)
   end
-  context 'ユーザー新規登録ができるとき' do 
+  context 'ユーザー新規登録ができるとき' do
     it '正しい情報を入力すればユーザー新規登録ができてトップページに移動する' do
-      #Basic認証を入力する
-      
+      # Basic認証を入力する
 
       # トップページに移動する
       visit root_path
@@ -28,14 +26,14 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       fill_in 'last-name', with: @user.first_name
       fill_in 'first-name-kana', with: @user.family_name_kana
       fill_in 'last-name-kana', with: @user.first_name_kana
-      select 1932, from: "user_birth_date_1i"
-      select 3, from: "user_birth_date_2i"
-      select 11, from: "user_birth_date_3i"
+      select 1932, from: 'user_birth_date_1i'
+      select 3, from: 'user_birth_date_2i'
+      select 11, from: 'user_birth_date_3i'
 
       # サインアップボタンを押すとユーザーモデルのカウントが1上がることを確認する
-      expect{
+      expect do
         find('input[name="commit"]').click
-      }.to change { User.count }.by(1)
+      end.to change { User.count }.by(1)
 
       # トップページへ遷移する
       expect(current_path).to eq root_path
@@ -69,17 +67,17 @@ RSpec.describe 'ユーザー新規登録', type: :system do
       fill_in 'last-name', with: nil
       fill_in 'first-name-kana', with: nil
       fill_in 'last-name-kana', with: nil
-      select '--', from: "user_birth_date_1i"
-      select '--', from: "user_birth_date_2i"
-      select '--', from: "user_birth_date_3i"
+      select '--', from: 'user_birth_date_1i'
+      select '--', from: 'user_birth_date_2i'
+      select '--', from: 'user_birth_date_3i'
 
       # サインアップボタンを押してもユーザーモデルのカウントは上がらないことを確認する
-      expect{
+      expect do
         find('input[name="commit"]').click
-      }.to change { User.count }.by(0)
+      end.to change { User.count }.by(0)
 
       # 新規登録ページへ戻されることを確認する
-      expect(current_path).to eq'/users'
+      expect(current_path).to eq '/users'
     end
   end
 end
@@ -104,7 +102,7 @@ RSpec.describe 'ログイン', type: :system do
       fill_in 'password', with: @user.password
 
       # ログインボタンを押す
-        find('input[name="commit"]').click
+      find('input[name="commit"]').click
 
       # トップページへ遷移することを確認する
       expect(current_path).to eq root_path
