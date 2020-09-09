@@ -7,6 +7,7 @@ require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
 require('jquery')
+require('./preview')
 require("../fee")
 require("../card")
 
